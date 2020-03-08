@@ -1,6 +1,9 @@
 package main
 
-type Customer struct {
-	Id   uint   `db:"id" json:"id"`
-	Name string `db:"name" json:"name"`
+import (
+	"fmt"
+)
+
+func main() {
+		fmt.Print("Hello World")
 }
