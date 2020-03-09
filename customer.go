@@ -2,9 +2,9 @@ package main
 
 import "time"
 
-type Customer struct {
-	Id   uint
-	Name string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+type NGCCustomer struct {
+	Id        uint      `db:"id"`
+	Name      string    `db:"name"`
+	CreatedAt time.Time `db:"created_at"`
+	UpdatedAt time.Time `db:"updated_at"`
 }

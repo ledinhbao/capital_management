@@ -1,26 +1,24 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
+	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-
-// TODO download Sqlite3 driver for JetBrain to navigate using Database panel.
-
 func main() {
-	db, err := sql.Open("sqlite3", "./database.db")
+	//db, err := sql.Open("sqlite3", "./database.db")
+	db, err := sqlx.Connect("sqlite3", "./database.db")
 	if err != nil {
 		panic(err)
 	}
 
-	queryString := `SELECT * FROM customers;`
-	_, err = db.Exec(queryString)
+	var customers []NGCCustomer
+	err = db.Select(&customers, "SELECT * FROM customers")
 	if err != nil {
-		panic (err)
+		panic(err)
 	}
-
+	fmt.Println(customers)
 
 	fmt.Print("Hello World")
 }
