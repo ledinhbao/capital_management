@@ -20,3 +20,9 @@ func (x *NGCCustomer) UpdateStringForNamedQuery() string {
 	}
 	return queryString
 }
+
+var insertNamedQueryString = `INSERT INTO customers (name, created_at, updated_at)
+VALUES (:name, :created_at, :updated_at)
+`
+var updateNamedQueryString = `UPDATE customers SET name = :name,
+updated_at = date("now") WHERE id = :id`
