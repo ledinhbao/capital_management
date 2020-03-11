@@ -2,42 +2,24 @@ package main
 
 import (
 	"fmt"
-	"github.com/jmoiron/sqlx"
+	"github.com/jung-kurt/gofpdf"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func saveNGCCustomerToDatabase(db *sqlx.DB, entity NGCCustomer) {
-	tx := db.MustBegin()
-	_, b := tx.NamedExec(entity.UpdateStringForNamedQuery(), entity)
-	if b != nil {
-		fmt.Println(b)
-	}
-	_ = tx.Commit()
+func GeneratePDF(filename string) error {
+	pdf := gofpdf.New("P", "mm", "A4", "")
+	pdf.AddPage()
+	pdf.SetFont("Arial", "B", 16)
+
+	pdf.CellFormat(190, 7, "BÁO CÁO KẾT QUẢ ĐẦU TƯ", "0", 0, "CM", false, 0, "")
+	fmt.Println("BÁO CÁO KẾT QUẢ ĐẦU TƯ")
+	return pdf.OutputFileAndClose(filename)
+
 }
 
 func main() {
-	//db, err := sql.Open("sqlite3", "./database.db")
-	db, err := sqlx.Connect("sqlite3", "./database.db")
+	err := GeneratePDF("hello.pdf")
 	if err != nil {
 		panic(err)
 	}
-
-	//sampleCustomer := NGCCustomer{
-	//	Id:        6,
-	//	Name:      "Le Thanh Tra",
-	//	CreatedAt: time.Now(),
-	//	UpdatedAt: time.Now(),
-	//}
-	//saveNGCCustomerToDatabase(db, sampleCustomer)
-
-	var customers []NGCCustomer
-	err = db.Select(&customers, "SELECT * FROM customers")
-	if err != nil {
-		panic(err)
-	}
-	for _, item := range customers {
-		fmt.Println(item)
-	}
-
-	fmt.Print("Hello World")
 }
